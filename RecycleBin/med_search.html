@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pharma Guide - Search</title>
+</head>
+<body>
+    <form action={{ "http://{}:{}/med_search".format(html_data['my_ip'], html_data['my_port']) }} method="post">
+        <p>Enter condition</p><br>
+        <input type="text" name="cond_name" id="cond_name">
+        <input type="submit" title="Search">
+    </form>
+
+    <p>{{ html_data['message'] }}</p><br>
+    {% if html_data['available'] %}
+        <table>
+            <tr>
+                {% for key in html_data['table_head'] %}
+                    <th>{{ key }}</th>
+                {% endfor %}
+            </tr>
+            {% for tup in  html_data['table_data'] %}
+            <tr>
+                {% for item in tup.values() %}
+                    <td>{{ item }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+</body>
+</html>
