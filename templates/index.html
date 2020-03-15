@@ -29,8 +29,63 @@
     </section>
     <!-- banner part start-->
 
+    <!--::Symptoms input::-->
+    <section class="regervation_part section_padding">
+        <div class="container">
+            <div class="row align-items-center regervation_content">
+                <div class="col-lg-7">
+                    <div class="regervation_part_iner">
+                        <form action="{{ 'http://{}:{}/home'.format(html_data['my_ip'], html_data['my_port']) }}" method="post">
+                            <h2>Enter Your Symptoms</h2>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <input name="p_name" id="p_name" type="text" class="form-control" placeholder="Name" required>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="disease_list" style="color: white">Select Diseases</label>
+                                    <select class="form-control" required name="disease_list" id="disease_list">
+                                        <option value="d1">Name 1</option>
+                                        <option value="d2">Name 2</option>
+                                        <option value="d3">Name 3</option>
+                                        <option value="d4">Name 4</option>
+                                        <option value="d5">Name 5</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-12" id="disease_box">
+                                    <input type="text" class="form-control" placeholder="Selected">
+                                    <input type="text" class="form-control" placeholder="Selected">
+                                    <input type="text" class="form-control" placeholder="Selected">
+                                    <input type="text" class="form-control" placeholder="Selected">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <select class="form-control" name="gender" id="gender" required>
+                                        <option value="male" selected>Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input type="number" min="1" max="110" class="form-control" placeholder="Age" name="age" id="age" required>
+                                </div>
+
+                            </div>
+                            <div class="button-group-area mt-40">
+                                <button type="submit" class="genric-btn primary e-large">Predict Disease</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-6">
+                    <div class="reservation_img">
+                        <img src="{{ url_for('static', filename='img/reservation.png') }}" alt="" class="reservation_img_iner">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--::Symptoms end here::-->
+
     <!-- about us part start-->
-    <section class="about_us padding_top">
+    <section style="display:none" class="about_us padding_top">
         <div class="container">
             <div class="row justify-content-between align-items-center">
                 <div class="col-md-6 col-lg-6">
@@ -68,7 +123,7 @@
     <!-- about us part end-->
 
     <!-- feature_part start-->
-    <section class="feature_part">
+    <section style="display:none" class="feature_part">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-8">
@@ -125,7 +180,7 @@
     <!-- feature_part start-->
 
     <!-- our depertment part start-->
-    <section class="our_depertment section_padding">
+    <section style="display:none" class="our_depertment section_padding">
         <div class="container">
             <div class="row justify-content-center text-center">
                 <div class="col-xl-12">
@@ -182,7 +237,7 @@
     <!-- our depertment part end-->
 
     <!--::doctor_part start::-->
-    <section class="doctor_part section_padding">
+    <section style="display:none" class="doctor_part section_padding">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-8">
@@ -283,7 +338,7 @@
     <!--::doctor_part end::-->
 
     <!--::regervation_part start::-->
-    <section class="regervation_part section_padding">
+    <section style="display:none" class="regervation_part section_padding">
         <div class="container">
             <div class="row align-items-center regervation_content">
                 <div class="col-lg-7">
@@ -342,7 +397,7 @@
     <!--::regervation_part end::-->
 
     <!--::blog_part start::-->
-    <section class="blog_part section_padding">
+    <section style="display:none" class="blog_part section_padding">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-8">

@@ -3,7 +3,7 @@ from Mongo import PharmaDBMainDS
 
 app = Flask(__name__)
 app.dts = PharmaDBMainDS()
-app.dts.set_localhost()
+# app.dts.set_localhost()
 app.my_ip = '192.168.43.27'
 app.my_port = 80
 
@@ -13,9 +13,20 @@ def root():
     return redirect(url_for('home'))
 
 
-@app.route('/home')
+@app.route('/home', methods=['POST', 'GET'])
 def home():
-    return render_template('index.html')
+    html_data = {
+        'my_ip': app.my_ip,
+        'my_port': app.my_port,
+        'present': False,
+        'message': '',
+        'current_query': {
+
+        }
+    }
+    if request.method == 'POST':
+        pass
+    return render_template('index.html', html_data=html_data)
 
 
 @app.route('/about')
