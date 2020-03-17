@@ -29,6 +29,68 @@
     </section>
     <!-- banner part start-->
 
+    <script>
+        let d_list = {{ html_data['pre_set']['d_list']|safe }};
+        function add_d_list(obj) {
+            let data_list = '<datalist id="d_list">';
+            for(let i=0; i<d_list.length;i++) {
+                data_list += ('<option value="' + d_list[i] + '">');
+            }
+            data_list += '</datalist>';
+            let output = '';
+            let times = Number(obj.value);
+            if(times>10){
+                times = 10;
+                obj.value = 10;
+            }
+            if(times<1){
+                times = 1;
+                obj.value = 1;
+            }
+            for(let i=1;i<=times;i++){
+                let new_id = 'dis_'+String(i);
+                output += (
+                    '<input class="form-control" type="text" required placeholder="Select One" name="' +
+                    new_id +
+                    '" id="' +
+                    new_id +
+                    '" list="d_list"/>' +
+                    data_list
+                );
+            }
+            document.getElementById("disease_box").innerHTML = output;
+        }
+        function add_existing_data() {
+            let data_list = '<datalist id="d_list">';
+            for(let i=0; i<d_list.length;i++) {
+                data_list += ('<option value="' + d_list[i] + '">');
+            }
+            data_list += '</datalist>';
+            let output = '';
+            let times = Number({{ '"{}"'.format(html_data['current_query']['no_of_dis'])|safe }});
+            for(let i=1;i<=times;i++){
+                let new_id = 'dis_'+String(i);
+                output += (
+                    '<input class="form-control" type="text" required placeholder="Select One" name="' +
+                    new_id +
+                    '" id="' +
+                    new_id +
+                    '" list="d_list"/>' +
+                    data_list
+                );
+            }
+            document.getElementById("disease_box").innerHTML = output;
+            let fetched_name = {{ html_data['current_query']['d_list']|safe }};
+            for(let i=0;i<fetched_name.length;i++){
+                let new_id = 'dis_'+String(i+1);
+                document.getElementById(new_id).value = fetched_name[i];
+            }
+            document.getElementById("p_name").value = {{ '"{}"'.format(html_data['current_query']['p_name'])|safe }};
+            document.getElementById("no_of_dis").value = {{ '"{}"'.format(html_data['current_query']['no_of_dis'])|safe }};
+            document.getElementById("gender").value = {{ '"{}"'.format(html_data['current_query']['gender'])|safe }};
+            document.getElementById("age").value = {{ '"{}"'.format(html_data['current_query']['age'])|safe }};
+        }
+    </script>
     <!--::Symptoms input::-->
     <section class="regervation_part section_padding">
         <div class="container">
@@ -39,24 +101,18 @@
                             <h2>Enter Your Symptoms</h2>
                             <div class="form-row">
                                 <div class="form-group col-md-12">
-                                    <input name="p_name" id="p_name" type="text" class="form-control" placeholder="Name" required>
+                                    <input name="p_name" id="p_name" type="text" class="form-control" placeholder="Name" required minlength="5">
                                 </div>
+
                                 <div class="form-group col-md-12">
-                                    <label for="disease_list" style="color: white">Select Diseases</label>
-                                    <select class="form-control" required name="disease_list" id="disease_list">
-                                        <option value="d1">Name 1</option>
-                                        <option value="d2">Name 2</option>
-                                        <option value="d3">Name 3</option>
-                                        <option value="d4">Name 4</option>
-                                        <option value="d5">Name 5</option>
-                                    </select>
+                                    <input name="no_of_dis" onchange="add_d_list(this);" id="no_of_dis" type="number" class="form-control" placeholder="No. of Symptoms" required />
                                 </div>
-                                <div class="form-group col-md-12" id="disease_box">
-                                    <input type="text" class="form-control" placeholder="Selected">
-                                    <input type="text" class="form-control" placeholder="Selected">
-                                    <input type="text" class="form-control" placeholder="Selected">
-                                    <input type="text" class="form-control" placeholder="Selected">
+
+                                <label for="disease_box" style="color: white">Select Diseases</label>
+                                <div class="form-group col-md-12" id="disease_box" style="border: solid white 2px; padding: 12px">
+
                                 </div>
+
                                 <div class="form-group col-md-6">
                                     <select class="form-control" name="gender" id="gender" required>
                                         <option value="male" selected>Male</option>
@@ -84,367 +140,116 @@
     </section>
     <!--::Symptoms end here::-->
 
-    <!-- about us part start-->
-    <section style="display:none" class="about_us padding_top">
-        <div class="container">
-            <div class="row justify-content-between align-items-center">
-                <div class="col-md-6 col-lg-6">
-                    <div class="about_us_img">
-                        <img src="{{ url_for('static', filename='img/top_service.png') }}" alt="">
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-5">
-                    <div class="about_us_text">
-                        <h2>About us</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed
-                            do eiusmod tempor incididunt ut labore et dolore magna aliqua
-                            Quis ipsum suspendisse ultrices gravida. Risus cmodo viverra
-                            maecenas accumsan lacus vel</p>
-                        <a class="btn_2 " href="#">learn more</a>
-                        <div class="banner_item">
-                            <div class="single_item">
-                                <img src="{{ url_for('static', filename='img/icon/banner_1.svg') }}" alt="">
-                                <h5>Emergency</h5>
-                            </div>
-                            <div class="single_item">
-                                <img src="{{ url_for('static', filename='img/icon/banner_2.svg') }}" alt="">
-                                <h5>Appointment</h5>
-                            </div>
-                            <div class="single_item">
-                                <img src="{{ url_for('static', filename='img/icon/banner_3.svg') }}" alt="">
-                                <h5>Qualfied</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- about us part end-->
 
-    <!-- feature_part start-->
-    <section style="display:none" class="feature_part">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-8">
-                    <div class="section_tittle text-center">
-                        <h2>Our services</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-between align-items-center">
-                <div class="col-lg-3 col-sm-12">
-                    <div class="single_feature">
-                        <div class="single_feature_part">
-                            <span class="single_feature_icon"><img src="{{ url_for('static', filename='img/icon/feature_1.svg') }}" alt=""></span>
-                            <h4>Better Future</h4>
-                            <p>Darkness multiply rule Which from without life creature blessed
-                                give moveth moveth seas make day which divided our have.</p>
-                        </div>
-                    </div>
-                    <div class="single_feature">
-                        <div class="single_feature_part">
-                            <span class="single_feature_icon"><img src="{{ url_for('static', filename='img/icon/feature_2.svg') }}" alt=""></span>
-                            <h4>Better Future</h4>
-                            <p>Darkness multiply rule Which from without life creature blessed
-                                give moveth moveth seas make day which divided our have.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-12">
-                        <div class="single_feature_img">
-                            <img src="{{ url_for('static', filename='img/service.png') }}" alt="">
-                        </div>
-                </div>
-                <div class="col-lg-3 col-sm-12">
-                    <div class="single_feature">
-                        <div class="single_feature_part">
-                            <span class="single_feature_icon"><img src="{{ url_for('static', filename='img/icon/feature_1.svg') }}" alt=""></span>
-                            <h4>Better Future</h4>
-                            <p>Darkness multiply rule Which from without life creature blessed
-                                give moveth moveth seas make day which divided our have.</p>
-                        </div>
-                    </div>
-                    <div class="single_feature">
-                        <div class="single_feature_part">
-                            <span class="single_feature_icon"><img src="{{ url_for('static', filename='img/icon/feature_2.svg') }}" alt=""></span>
-                            <h4>Better Future</h4>
-                            <p>Darkness multiply rule Which from without life creature blessed
-                                give moveth moveth seas make day which divided our have.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- feature_part start-->
-
-    <!-- our depertment part start-->
-    <section style="display:none" class="our_depertment section_padding">
-        <div class="container">
-            <div class="row justify-content-center text-center">
-                <div class="col-xl-12">
-                    <div class="depertment_content">
-                        <div class="row justify-content-center">
-                            <div class="col-xl-8">
-                                <h2>Our Depertment</h2>
-                                <div class="row">
-                                    <div class="col-lg-6 col-sm-6">
-                                        <div class="single_our_depertment">
-                                            <span class="our_depertment_icon"><img src="{{ url_for('static', filename='img/icon/feature_2.svg') }}"
-                                                    alt=""></span>
-                                            <h4>Better Future</h4>
-                                            <p>Darkness multiply rule Which from without life creature blessed
-                                                give moveth moveth seas make day which divided our have.</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-6">
-                                        <div class="single_our_depertment">
-                                            <span class="our_depertment_icon"><img src="{{ url_for('static', filename='img/icon/feature_2.svg') }}"
-                                                    alt=""></span>
-                                            <h4>Better Future</h4>
-                                            <p>Darkness multiply rule Which from without life creature blessed
-                                                give moveth moveth seas make day which divided our have.</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-6">
-                                        <div class="single_our_depertment">
-                                            <span class="our_depertment_icon"><img src="{{ url_for('static', filename='img/icon/feature_2.svg') }}"
-                                                    alt=""></span>
-                                            <h4>Better Future</h4>
-                                            <p>Darkness multiply rule Which from without life creature blessed
-                                                give moveth moveth seas make day which divided our have.</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-6">
-                                        <div class="single_our_depertment">
-                                            <span class="our_depertment_icon"><img src="{{ url_for('static', filename='img/icon/feature_2.svg') }}"
-                                                    alt=""></span>
-                                            <h4>Better Future</h4>
-                                            <p>Darkness multiply rule Which from without life creature blessed
-                                                give moveth moveth seas make day which divided our have.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- our depertment part end-->
-
-    <!--::doctor_part start::-->
-    <section style="display:none" class="doctor_part section_padding">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-8">
-                    <div class="section_tittle text-center">
-                        <h2> Experienced Doctors</h2>
-                        <p>Face replenish sea good winged bearing years air divide wasHave night male also</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-lg-3">
-                    <div class="single_blog_item">
-                        <div class="single_blog_img">
-                            <img src="{{ url_for('static', filename='img/doctor/doctor_1.png') }}" alt="doctor">
-                            <div class="social_icon">
-                                <ul>
-                                    <li><a href="#"> <i class="ti-facebook"></i> </a></li>
-                                    <li><a href="#"> <i class="ti-twitter-alt"></i> </a></li>
-                                    <li><a href="#"> <i class="ti-instagram"></i> </a></li>
-                                    <li><a href="#"> <i class="ti-skype"></i> </a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="single_text">
-                            <div class="single_blog_text">
-                                <h3>DR Adam Billiard</h3>
-                                <p>Heart specialist</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="single_blog_item">
-                        <div class="single_blog_img">
-                            <img src="{{ url_for('static', filename='img/doctor/doctor_4.png') }}" alt="doctor">
-                            <div class="social_icon">
-                                <ul>
-                                    <li><a href="#"> <i class="ti-facebook"></i> </a></li>
-                                    <li><a href="#"> <i class="ti-twitter-alt"></i> </a></li>
-                                    <li><a href="#"> <i class="ti-instagram"></i> </a></li>
-                                    <li><a href="#"> <i class="ti-skype"></i> </a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="single_text">
-                            <div class="single_blog_text">
-                                <h3>DR Adam Billiard</h3>
-                                <p>Medicine specialist</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="single_blog_item">
-                        <div class="single_blog_img">
-                            <img src="{{ url_for('static', filename='img/doctor/doctor_2.png') }}" alt="doctor">
-                            <div class="social_icon">
-                                <ul>
-                                    <li><a href="#"> <i class="ti-facebook"></i> </a></li>
-                                    <li><a href="#"> <i class="ti-twitter-alt"></i> </a></li>
-                                    <li><a href="#"> <i class="ti-instagram"></i> </a></li>
-                                    <li><a href="#"> <i class="ti-skype"></i> </a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="single_text">
-                            <div class="single_blog_text">
-                                <h3>DR Fred Macyard</h3>
-                                <p>CHeart specialist</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="single_blog_item">
-                        <div class="single_blog_img">
-                            <img src="{{ url_for('static', filename='img/doctor/doctor_3.png') }}" alt="doctor">
-                            <div class="social_icon">
-                                <ul>
-                                    <li><a href="#"> <i class="ti-facebook"></i> </a></li>
-                                    <li><a href="#"> <i class="ti-twitter-alt"></i> </a></li>
-                                    <li><a href="#"> <i class="ti-instagram"></i> </a></li>
-                                    <li><a href="#"> <i class="ti-skype"></i> </a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="single_text">
-                            <div class="single_blog_text">
-                                <h3>DR Justin Stuard</h3>
-                                <p>Heart specialist</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--::doctor_part end::-->
-
-    <!--::regervation_part start::-->
-    <section style="display:none" class="regervation_part section_padding">
-        <div class="container">
-            <div class="row align-items-center regervation_content">
-                <div class="col-lg-7">
-                    <div class="regervation_part_iner">
-                        <form>
-                            <h2>Make an Appointment</h2>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <input type="email" class="form-control" id="inputEmail4" placeholder="Name">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <input type="password" class="form-control" id="inputPassword4"
-                                        placeholder="Email address">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <select class="form-control" id="Select">
-                                        <option value="1" selected>Select service</option>
-                                        <option value="2">Name of service</option>
-                                        <option value="3">Name of service</option>
-                                        <option value="4">Name of service</option>
-                                        <option value="5">Name of service</option>
-                                    </select>
-                                </div>
-                                <div class="form-group time_icon col-md-6">
-                                    <select class="form-control" id="Select2">
-                                        <option value="" selected>Time</option>
-                                        <option value="1">8 AM TO 10AM</option>
-                                        <option value="1">10 AM TO 12PM</option>
-                                        <option value="1">12PM TO 2PM</option>
-                                        <option value="1">2PM TO 4PM</option>
-                                        <option value="1">4PM TO 6PM</option>
-                                        <option value="1">6PM TO 8PM</option>
-                                        <option value="1">4PM TO 10PM</option>
-                                        <option value="1">10PM TO 12PM</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <textarea class="form-control" id="Textarea" rows="4"
-                                        placeholder="Your Note "></textarea>
-                                </div>
-                            </div>
-                            <div class="regerv_btn">
-                                <a href="#" class="btn_2">Make an Appointment</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-lg-5 col-md-6">
-                    <div class="reservation_img">
-                        <img src="{{ url_for('static', filename='img/reservation.png') }}" alt="" class="reservation_img_iner">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--::regervation_part end::-->
-
-    <!--::blog_part start::-->
-    <section style="display:none" class="blog_part section_padding">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-8">
-                    <div class="section_tittle text-center">
-                        <h2>Our Blog</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="single-home-blog">
-                        <div class="card">
-                            <img src="{{ url_for('static', filename='img/blog/blog_2.png') }}" class="card-img-top" alt="blog">
-                            <div class="card-body">
-                                <a href="{{ url_for('blog') }}">
-                                    <h5 class="card-title">First cattle which earth unto let health for
-                                        can get and see what you </h5>
-                                </a>
-                                <ul>
-                                    <li> <span class="ti-user"></span>Jhon mike</li>
-                                    <li> <span class="ti-bookmark"></span>Clinic, doctors</li>
-                                </ul>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="single-home-blog">
-                        <div class="card">
-                            <img src="{{ url_for('static', filename='img/blog/blog_3.png') }}" class="card-img-top" alt="blog">
-                            <div class="card-body">
-                                <a href="{{ url_for('blog') }}">
-                                    <h5 class="card-title">First cattle which earth unto let health for
-                                        can get and see what you </h5>
-                                </a>
-                                <ul>
-                                    <li> <span class="ti-user"></span>Jhon mike</li>
-                                    <li> <span class="ti-bookmark"></span>Clinic, doctors</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--::blog_part end::-->
+    <div class="whole-wrap">
+        <div class="container box_1170">
+            <br>
+            <h4 id="message_tag" style="color: red" class="mb-30">{{ html_data['message'] }}</h4>
+            {% if html_data['result'] %}
+                <script>location.replace("#message_tag");add_existing_data();</script>
+                <div class="section-top-border">
+				<h3 class="mb-30">Your Result</h3>
+				<div class="progress-table-wrap">
+					<div class="progress-table">
+						<div class="table-head">
+							<div class="serial">#</div>
+							<div class="country">Countries</div>
+							<div class="visit">Visits</div>
+							<div class="percentage">Percentages</div>
+						</div>
+						<div class="table-row">
+							<div class="serial">01</div>
+							<div class="country"> <img src="{{ url_for('static', filename='img/elements/f1.jpg') }}" alt="flag">Canada</div>
+							<div class="visit">645032</div>
+							<div class="percentage">
+								<div class="progress">
+									<div class="progress-bar color-1" role="progressbar" style="width: 80%"
+										aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+							</div>
+						</div>
+						<div class="table-row">
+							<div class="serial">02</div>
+							<div class="country"> <img src="{{ url_for('static', filename='img/elements/f2.jpg') }}" alt="flag">Canada</div>
+							<div class="visit">645032</div>
+							<div class="percentage">
+								<div class="progress">
+									<div class="progress-bar color-2" role="progressbar" style="width: 30%"
+										aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+							</div>
+						</div>
+						<div class="table-row">
+							<div class="serial">03</div>
+							<div class="country"> <img src="{{ url_for('static', filename='img/elements/f3.jpg') }}" alt="flag">Canada</div>
+							<div class="visit">645032</div>
+							<div class="percentage">
+								<div class="progress">
+									<div class="progress-bar color-3" role="progressbar" style="width: 55%"
+										aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+							</div>
+						</div>
+						<div class="table-row">
+							<div class="serial">04</div>
+							<div class="country"> <img src="{{ url_for('static', filename='img/elements/f4.jpg') }}" alt="flag">Canada</div>
+							<div class="visit">645032</div>
+							<div class="percentage">
+								<div class="progress">
+									<div class="progress-bar color-4" role="progressbar" style="width: 60%"
+										aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+							</div>
+						</div>
+						<div class="table-row">
+							<div class="serial">05</div>
+							<div class="country"> <img src="{{ url_for('static', filename='img/elements/f5.jpg') }}" alt="flag">Canada</div>
+							<div class="visit">645032</div>
+							<div class="percentage">
+								<div class="progress">
+									<div class="progress-bar color-5" role="progressbar" style="width: 40%"
+										aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+							</div>
+						</div>
+						<div class="table-row">
+							<div class="serial">06</div>
+							<div class="country"> <img src="{{ url_for('static', filename='img/elements/f6.jpg') }}" alt="flag">Canada</div>
+							<div class="visit">645032</div>
+							<div class="percentage">
+								<div class="progress">
+									<div class="progress-bar color-6" role="progressbar" style="width: 70%"
+										aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+							</div>
+						</div>
+						<div class="table-row">
+							<div class="serial">07</div>
+							<div class="country"> <img src="{{ url_for('static', filename='img/elements/f7.jpg') }}" alt="flag">Canada</div>
+							<div class="visit">645032</div>
+							<div class="percentage">
+								<div class="progress">
+									<div class="progress-bar color-7" role="progressbar" style="width: 30%"
+										aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+							</div>
+						</div>
+						<div class="table-row">
+							<div class="serial">08</div>
+							<div class="country"> <img src="{{ url_for('static', filename='img/elements/f8.jpg') }}" alt="flag">Canada</div>
+							<div class="visit">645032</div>
+							<div class="percentage">
+								<div class="progress">
+									<div class="progress-bar color-8" role="progressbar" style="width: 60%"
+										aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+            {% endif %}
+		</div>
+	</div>
 
 {% endblock %}

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from Mongo import PharmaDBMainDS
+import json
 
 app = Flask(__name__)
 app.dts = PharmaDBMainDS()
@@ -18,14 +19,32 @@ def home():
     html_data = {
         'my_ip': app.my_ip,
         'my_port': app.my_port,
-        'present': False,
-        'message': '',
+        'result': False,
+        'message': 'Data is here',
+        'pre_set': {
+            'd_list': json.dumps(["Rahul", "Justin", "Ankit", "Aakash", "Tarun", "Anurag", "Shankar",
+                                  "Akshay", "Aryan", "Sushant", "Deepika", "Ankita"])
+        },
         'current_query': {
-
+            'p_name': 'none',
+            'no_of_dis': 1,
+            'd_list': [],
+            'gender': 'none',
+            'age': '1'
+        },
+        'query_result': {
         }
     }
     if request.method == 'POST':
-        pass
+        html_data['current_query']['p_name'] = request.form['p_name']
+        html_data['current_query']['age'] = request.form['age']
+        html_data['current_query']['gender'] = request.form['gender']
+        html_data['current_query']['no_of_dis'] = request.form['no_of_dis']
+        for i in range(int(request.form['no_of_dis'])):
+            html_data['current_query']['d_list'].append(request.form['dis_{}'.format(i+1)])
+        html_data['result'] = True
+
+        html_data['message'] = 'Data Retrieved'
     return render_template('index.html', html_data=html_data)
 
 
