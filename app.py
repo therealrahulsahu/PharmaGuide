@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for
-from Mongo import PharmaDBMainDS
+from MainML import PredictDisease
 import json
 
 app = Flask(__name__)
-app.dts = PharmaDBMainDS()
-# app.dts.set_localhost()
+pd_model = PredictDisease()
+
 app.my_ip = '192.168.43.27'
 app.my_port = 80
 
@@ -20,31 +20,37 @@ def home():
         'my_ip': app.my_ip,
         'my_port': app.my_port,
         'result': False,
-        'message': 'Data is here',
+        'message': '',
         'pre_set': {
-            'd_list': json.dumps(["Rahul", "Justin", "Ankit", "Aakash", "Tarun", "Anurag", "Shankar",
-                                  "Akshay", "Aryan", "Sushant", "Deepika", "Ankita"])
+            'd_list': json.dumps(pd_model.get_symptoms_list())
         },
         'current_query': {
             'p_name': 'none',
             'no_of_dis': 1,
             'd_list': [],
             'gender': 'none',
-            'age': '1'
+            'age': '1',
+            'season': '',
         },
         'query_result': {
+            'disease_name': '',
         }
     }
     if request.method == 'POST':
         html_data['current_query']['p_name'] = request.form['p_name']
         html_data['current_query']['age'] = request.form['age']
         html_data['current_query']['gender'] = request.form['gender']
+        html_data['current_query']['season'] = request.form['season']
         html_data['current_query']['no_of_dis'] = request.form['no_of_dis']
         for i in range(int(request.form['no_of_dis'])):
             html_data['current_query']['d_list'].append(request.form['dis_{}'.format(i+1)])
-        html_data['result'] = True
 
-        html_data['message'] = 'Data Retrieved'
+        html_data['query_result']['disease_name'] = pd_model.predict_disease(
+            html_data['current_query']['d_list'], int(html_data['current_query']['age']),
+            html_data['current_query']['gender'], html_data['current_query']['season']
+        )
+        html_data['result'] = True
+        html_data['message'] = 'Report Prepared'
     return render_template('index.html', html_data=html_data)
 
 
