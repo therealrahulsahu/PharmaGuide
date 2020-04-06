@@ -52,11 +52,11 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url_for('about') }}">about</a>
                                 </li>
-                                <li class="nav-item">
+                                <li style="display: none" class="nav-item">
                                     <a class="nav-link" href="{{ url_for('doctor') }}">Doctors</a>
                                 </li>
 
-                                <li class="nav-item dropdown">
+                                <li style="display: none" class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="{{ url_for('blog') }}" id="navbarDropdown"
                                         role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Pages
@@ -67,7 +67,7 @@
                                         <a class="dropdown-item" href="{{ url_for('elements') }}">Elements</a>
                                     </div>
                                 </li>
-                                <li class="nav-item dropdown">
+                                <li style="display: none" class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="{{ url_for('blog') }}" id="navbarDropdown_1"
                                         role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         blog

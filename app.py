@@ -45,10 +45,7 @@ def home():
         for i in range(int(request.form['no_of_dis'])):
             html_data['current_query']['d_list'].append(request.form['dis_{}'.format(i+1)])
 
-        html_data['query_result']['disease_name'] = pd_model.predict_disease(
-            html_data['current_query']['d_list'], int(html_data['current_query']['age']),
-            html_data['current_query']['gender'], html_data['current_query']['season']
-        )
+        html_data['query_result']['disease_name'] = pd_model.predict_disease(html_data['current_query']['d_list'])
         html_data['result'] = True
         html_data['message'] = 'Report Prepared'
     return render_template('index.html', html_data=html_data)

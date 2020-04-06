@@ -2128,3 +2128,5 @@ migraine disorders,C0020532,numbness,C0031256,61,173,low,low,20,female,36.86,nor
 migraine disorders,C0020532,nausea,C0014591,61,168,high,high,24,female,32.395,southwest,Winter,0
 migraine disorders,C0020532,fever,C0025323,61,168,medium,medium,17,male,42.75,southeast,Winter,0
 migraine disorders,C0020532,splenomegaly,C0015967,61,168,high,high,17,male,25.08,northeast,Winter,0
+none,,abdomen acute,,,,,,,,,,,
+none,,abdominal bloating,,,,,,,,,,,
